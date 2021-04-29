@@ -15,15 +15,14 @@ class _MagicMusselState extends State<MagicMussel> {
     'You know it',
     'Just think about it',
     'That\'s so easy',
-    'I have my own problems, you know?',
     '42',
-    'The person you have called is not available'
   ];
   int answerNumber = 1;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: Center(child: Text('Ask Me Anything')),
@@ -34,21 +33,26 @@ class _MagicMusselState extends State<MagicMussel> {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Container(
-                  child: Text(
-                    answers[answerNumber],
-                    style: TextStyle(fontSize: 20),
+                ClipPath(
+                  clipper: TriangleClipper(),
+                  child: Container(
+                    child: SizedBox(
+                      height: 150,
+                      width: 150,
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Text(
+                          answers[answerNumber],
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                    ),
+                    color: Colors.lightBlue,
                   ),
-                  color: Colors.lightBlue,
                 ),
-                // ClipPath(
-                //   child: Container(
-                //     color: Colors.red,
-                //     height: 100,
-                //     width: 100,
-                //   ),
-                //   clipper: MyCustomClipper(),
-                // ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: MaterialButton(
@@ -61,7 +65,7 @@ class _MagicMusselState extends State<MagicMussel> {
                     ),
                     onPressed: () {
                       setState(() {
-                        answerNumber = Random().nextInt(8) + 1;
+                        answerNumber = Random().nextInt(6) + 1;
                         print(answerNumber);
                       });
                     },
@@ -76,16 +80,17 @@ class _MagicMusselState extends State<MagicMussel> {
   }
 }
 
-// class MyCustomClipper extends CustomClipper<Path> {
-//   @override
-//   Path getClip(Size size) {
-//     Path path = Path();
-//     path.lineTo(0, 100);
-//     return path;
-//   }
-//
-//   @override
-//   bool shouldReclip(CustomClipper<Path> oldClipper) {
-//     return true;
-//   }
-// }
+class TriangleClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+    path.moveTo(size.width / 2, 0.0);
+    path.lineTo(size.width, size.height);
+    path.lineTo(0.0, size.height);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(TriangleClipper oldClipper) => false;
+}
