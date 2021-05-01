@@ -12,6 +12,7 @@ class _MagicMusselState extends State<MagicMussel> {
     'I don\'t know',
     'That\'s a tough one',
     'ehm...',
+    'Good question'
     'You know it',
     'Just think about it',
     'That\'s so easy',
